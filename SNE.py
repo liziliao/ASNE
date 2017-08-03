@@ -10,6 +10,7 @@ import math
 import numpy as np
 import tensorflow as tf
 from sklearn.base import BaseEstimator, TransformerMixin
+import evaluation
 
 class SNE(BaseEstimator, TransformerMixin):
     def __init__(self, data, id_embedding_size, attr_embedding_size,
