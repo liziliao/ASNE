@@ -1,4 +1,4 @@
-# Social-Network-Embedding
+# Attributed-Social-Network-Embedding
 
 Tensorflow implementation of Attributed Social Network Embedding framework (SNE).
 
