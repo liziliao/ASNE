@@ -1,6 +1,6 @@
 # Attributed-Social-Network-Embedding
 
-Tensorflow implementation of Attributed Social Network Embedding framework (SNE).
+Tensorflow implementation of Attributed Social Network Embedding framework (ASNE).
 
 The instruction of commands has been clearly stated in the codes (see the parse_args function).
 
