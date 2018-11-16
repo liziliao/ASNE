@@ -1,4 +1,4 @@
-# Attributed-Social-Network-Embedding
+# Attributed-Social-Network-Embedding  [  tensorflow 0.12   ]
 
 Tensorflow implementation of Attributed Social Network Embedding framework (ASNE).
 
