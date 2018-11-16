@@ -4,7 +4,7 @@ Tensorflow implementation of Attributed Social Network Embedding framework (ASNE
 
 The instruction of commands has been clearly stated in the codes (see the parse_args function).
 
-## Example to run the codes.
+## Example to run the codes [tensorflow  0.12 version]
 ```
 python SNE_runner.py --data_path path --id_dim 20 --attr_dim 20 --n_neg_samples 10 --epoch 20
 ```
