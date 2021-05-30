@@ -51,7 +51,7 @@ def evaluate_MAP( node_neighbors_map, Embeddings, distance_measure):
         for neighbor in node_neighbors_map[node]:
             Y_true[node][neighbor] = 1
 
-    print distance_measure
+    print(distance_measure)
     Y_predict = calculate_distance(Embeddings,distance_measure)
     for node in node_neighbors_map:
         MAP +=  average_precision_score(Y_true[node,:], Y_predict[node,:])
