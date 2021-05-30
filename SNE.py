@@ -11,6 +11,9 @@ import numpy as np
 import tensorflow as tf
 from sklearn.base import BaseEstimator, TransformerMixin
 import evaluation
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+
 
 class SNE(BaseEstimator, TransformerMixin):
     def __init__(self, data, id_embedding_size, attr_embedding_size,
@@ -54,13 +57,13 @@ class SNE(BaseEstimator, TransformerMixin):
             # Look up embeddings for node_id.
             self.id_embed =  tf.nn.embedding_lookup(self.weights['in_embeddings'], self.train_data_id) # batch_size * id_dim
             self.attr_embed =  tf.matmul(self.train_data_attr, self.weights['attr_embeddings'])  # batch_size * attr_dim
-            self.embed_layer = tf.concat(1, [self.id_embed, self.alpha * self.attr_embed]) # batch_size * (id_dim + attr_dim)
+            self.embed_layer = tf.concat([self.id_embed, self.alpha * self.attr_embed],1) # batch_size * (id_dim + attr_dim)
 
             ## can add hidden_layers component here!
 
             # Compute the loss, using a sample of the negative labels each time.
-            self.loss =  tf.reduce_mean(tf.nn.sampled_softmax_loss(self.weights['out_embeddings'], self.weights['biases'], self.embed_layer,
-                                                  self.train_labels, self.n_neg_samples, self.node_N))
+            self.loss =  tf.reduce_mean(tf.nn.sampled_softmax_loss(self.weights['out_embeddings'], self.weights['biases'],
+                                                  self.train_labels,self.embed_layer, self.n_neg_samples, self.node_N))
             # Optimizer.
             self.optimizer = tf.train.AdamOptimizer(learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8).minimize(self.loss)
             # print("AdamOptimizer")
@@ -91,7 +94,7 @@ class SNE(BaseEstimator, TransformerMixin):
 
     def train(self): # fit a dataset
 
-        print 'Using in + out embedding'
+        print('Using in + out embedding')
 
         for epoch in range( self.epoch ):
             total_batch = int( len(self.X_train['data_id_list']) / self.batch_size)
@@ -115,8 +118,8 @@ class SNE(BaseEstimator, TransformerMixin):
 
             # link prediction test
             roc = evaluation.evaluate_ROC(self.X_test, Embeddings)
-            print "Epoch:", '%04d' % (epoch + 1), \
-                         "roc=", "{:.9f}".format(roc)
+            print("Epoch:", '%04d' % (epoch + 1), \
+                         "roc=", "{:.9f}".format(roc))
 
 
     def getEmbedding(self, type, nodes):
